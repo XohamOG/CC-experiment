@@ -1,10 +1,25 @@
-import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ThemeProvider } from './contexts/ThemeContext'
+import InteractiveOrb from './components/InteractiveOrb'
+import Home from './pages/Home'
+import Analyze from './pages/Analyze'
+import EnhancedResults from './pages/EnhancedResults'
 
-export default function App() {
+function App() {
   return (
-    <div style={{fontFamily: 'sans-serif', padding: 24}}>
-      <h1>Vite + React frontend</h1>
-      <p>If you see this, frontend scaffold is working.</p>
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen transition-colors duration-300 bg-gradient-to-br from-beige-50 to-beige-100 dark:from-black dark:to-black">
+        <InteractiveOrb />
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/analyze" element={<Analyze />} />
+            <Route path="/results" element={<EnhancedResults />} />
+          </Routes>
+        </Router>
+      </div>
+    </ThemeProvider>
   )
 }
+
+export default App
