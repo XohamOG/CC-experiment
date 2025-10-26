@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 export default function LoadingSplash({ isLoading, onComplete }) {
   const [currentWord, setCurrentWord] = useState(0)
-  const words = ['ML', 'MINI', 'PROJECT']
+  const words = ['CLOUD', 'COMPUTING', 'PROJECT']
   
   useEffect(() => {
     if (!isLoading) return
