@@ -88,9 +88,11 @@ src/
 
 ## 🔧 API Integration
 
-The frontend connects to a backend API running on `http://localhost:3000/api` with the following endpoints:
+The frontend connects to a deployed Flask API on Render:
 
-### POST `/api/detect`
+**Production API:** `https://hate-speech-api-dzmg.onrender.com/api`
+
+### POST `/api/predict`
 Analyzes text for hate speech detection.
 
 **Request Body:**
@@ -103,14 +105,89 @@ Analyzes text for hate speech detection.
 **Response:**
 ```json
 {
-  "success": true,
-  "is_hate_speech": false,
+  "text": "The analyzed text",
+  "prediction": 0,
+  "label": "normal",
   "confidence": 0.95,
-  "severity": "none|low|medium|high",
-  "text": "Original text",
-  "model_info": {},
-  "timestamp": "2025-10-26T..."
+  "status": "success"
 }
+```
+
+**Labels:**
+- `prediction`: 0 (normal) or 1 (hate_speech)
+- `label`: "normal" or "hate_speech"
+- `confidence`: Confidence score (0-1)
+
+### Additional Endpoints
+- **GET** `/health` - Health check and model status
+- **POST** `/api/batch-predict` - Batch prediction for multiple texts
+- **GET** `/api/docs` - Full API documentation
+
+For detailed API integration information, see [API_INTEGRATION.md](./API_INTEGRATION.md)
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+```powershell
+# Navigate to frontend directory
+cd "D:/CC experiment/frontend"
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`
+
+### Production Build
+
+```powershell
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## 📝 Features
+
+### Text Analysis
+- Enter custom text for hate speech detection
+- Pre-loaded sample texts for testing
+- Real-time analysis with confidence scores
+- Color-coded results (red for hate speech, green for normal)
+
+### Audio Analysis (Coming Soon)
+- Audio input currently requires speech-to-text integration
+- Will support WAV, MP3, FLAC, M4A, OGG formats
+
+### User Interface
+- Dark/Light theme toggle
+- Smooth animations with Framer Motion
+- Responsive design for all screen sizes
+- Loading states and error handling
+- Animated background effects
+
+## 🧪 Testing the Application
+
+### Sample Texts Included:
+1. **Hate Speech Example 1:** "I hate all those people, they should be eliminated"
+2. **Hate Speech Example 2:** "Those idiots deserve to suffer for what they are"
+3. **Normal Text 1:** "I love spending time with my family and friends"
+4. **Normal Text 2:** "This is a beautiful day for a walk in the park"
+5. **Neutral Comment:** "The weather forecast shows rain tomorrow afternoon"
+
+### Using PowerShell to Test API:
+```powershell
+$body = @{ text = "I love this beautiful day" } | ConvertTo-Json
+Invoke-RestMethod -Uri "https://hate-speech-api-dzmg.onrender.com/api/predict" -Method POST -Body $body -ContentType "application/json"
 ```
 
 ## 🚀 Getting Started

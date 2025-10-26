@@ -8,7 +8,7 @@ import EnhancedOrb from "@/components/EnhancedOrb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTheme } from "@/contexts/ThemeContext";
 
-const API_BASE_URL = "http://localhost:3001/api";
+const API_BASE_URL = "https://hate-speech-api-dzmg.onrender.com/api";
 
 // Sample hate speech text examples
 const SAMPLE_TEXTS = {
@@ -49,33 +49,39 @@ export default function Analyze() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          text: inputText,
-          type: "text"
+          text: inputText
         }),
       });
 
       if (!response.ok) {
-        throw new Error(`Server error: ${response.status} ${response.statusText}`);
-      }
-
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const text = await response.text();
-        throw new Error(`Server returned unexpected response`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Server error: ${response.status}`);
       }
 
       const result = await response.json();
 
-      if (result.success) {
-        setResults(result);
+      // Transform API response to match frontend expectations
+      if (result.status === "success") {
+        const transformedResult = {
+          success: true,
+          prediction: result.label, // "hate_speech" or "normal"
+          is_hate_speech: result.prediction === 1,
+          probabilities: {
+            normal: result.prediction === 0 ? result.confidence : (1 - result.confidence),
+            hate: result.prediction === 1 ? result.confidence : (1 - result.confidence)
+          },
+          confidence: result.confidence,
+          text: result.text
+        };
+        setResults(transformedResult);
         setHasInput(true);
       } else {
-        setError(result.error || "Failed to analyze text");
+        setError(result.message || "Failed to analyze text");
       }
     } catch (err) {
       console.error("Text analysis error:", err);
       if (err.message.includes("Failed to fetch")) {
-        setError("Cannot connect to server. Please make sure the backend is running on http://localhost:3001");
+        setError("Cannot connect to the hate speech detection API. Please check your internet connection.");
       } else {
         setError(`Error: ${err.message}`);
       }
@@ -85,14 +91,23 @@ export default function Analyze() {
   };
 
   // Process audio file for hate speech detection
+  // Note: Current API only supports text input
+  // Audio files would need speech-to-text conversion first
   const processAudioFile = async (audioFile) => {
     setIsProcessing(true);
     setError(null);
     setResults(null);
 
     try {
-      const formData = new FormData();
+      // For now, show a message that audio processing requires additional setup
+      setError("Audio analysis requires speech-to-text conversion. Please use text input for now, or we can add speech-to-text integration in the future.");
+      setIsProcessing(false);
+      return;
       
+      /* Future implementation with speech-to-text:
+      // 1. Convert audio to text using a speech-to-text service
+      // 2. Send the transcribed text to the hate speech API
+      const formData = new FormData();
       let fileToSend = audioFile;
       if (audioFile instanceof Blob && !(audioFile instanceof File)) {
         fileToSend = new File([audioFile], 'recorded-audio.webm', { 
@@ -101,38 +116,31 @@ export default function Analyze() {
       }
       
       formData.append("audio", fileToSend);
-      formData.append("type", "audio");
-
-      const response = await fetch(`${API_BASE_URL}/predict`, {
+      
+      // Send to speech-to-text service first
+      const transcriptionResponse = await fetch(`${SPEECH_TO_TEXT_API}`, {
         method: "POST",
         body: formData,
       });
-
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status} ${response.statusText}`);
-      }
-
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const text = await response.text();
-        throw new Error(`Server returned HTML instead of JSON`);
-      }
-
-      const result = await response.json();
-
-      if (result.success) {
-        setResults(result);
-        setHasInput(true);
-      } else {
-        setError(result.error || "Failed to process audio");
-      }
+      
+      const transcription = await transcriptionResponse.json();
+      
+      // Then analyze the transcribed text
+      const response = await fetch(`${API_BASE_URL}/predict`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: transcription.text
+        }),
+      });
+      
+      // Process response same as text analysis
+      */
     } catch (err) {
       console.error("Audio processing error:", err);
-      if (err.message.includes("Failed to fetch")) {
-        setError("Cannot connect to server. Please make sure the backend is running on http://localhost:3001");
-      } else {
-        setError(`Network error: ${err.message}`);
-      }
+      setError(`Error: ${err.message}`);
     } finally {
       setIsProcessing(false);
     }
