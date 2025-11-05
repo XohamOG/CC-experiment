@@ -11,13 +11,13 @@ import { useTheme } from "@/contexts/ThemeContext";
 // API Endpoints for both EC2 instances
 const MODEL_API_ENDPOINTS = {
   tensorflow: {
-    name: "TensorFlow LSTM Model",
-    url: "http://52.54.168.69:5000/predict",
-    description: "Advanced LSTM-based hate speech detection"
+    name: "PyTorch Hate Speech Model",
+    url: "http://54.175.169.219:5000/predict",
+    description: "DistilBERT-based hate speech detection (PyTorch)"
   },
   gemini: {
     name: "Gemini AI Model",
-    url: "http://18.212.76.45:8000/detect_hate",
+    url: "http://35.174.6.220:8000/detect_hate",
     description: "Gemini-powered hate speech analysis"
   }
 };
@@ -47,7 +47,7 @@ export default function Analyze() {
   const [activeTab, setActiveTab] = useState("both"); // "both", "tensorflow", "gemini"
   const navigate = useNavigate();
 
-  // Process text with TensorFlow model
+  // Process text with PyTorch model
   const analyzeTensorFlow = async (text) => {
     try {
       const response = await fetch(MODEL_API_ENDPOINTS.tensorflow.url, {
@@ -59,29 +59,26 @@ export default function Analyze() {
       });
 
       if (!response.ok) {
-        throw new Error(`TensorFlow API error: ${response.status}`);
+        throw new Error(`PyTorch API error: ${response.status}`);
       }
 
       const result = await response.json();
-      
-      // Transform to common format
+
+      // PyTorch API returns: { "text": ..., "prediction": 0|1, "confidence": float }
       return {
         success: true,
         model: "tensorflow",
-        prediction: result.prediction === "Hate Speech" ? "hate_speech" : "normal",
-        is_hate_speech: result.prediction === "Hate Speech",
+        prediction: result.prediction === 1 ? "hate_speech" : "normal",
+        is_hate_speech: result.prediction === 1,
         confidence: result.confidence,
         raw_response: result
       };
     } catch (err) {
-      console.error("TensorFlow API error:", err);
-      
-      // Provide specific error messages
+      console.error("PyTorch API error:", err);
       let errorMessage = err.message;
       if (err.message.includes("Failed to fetch") || err.name === "TypeError") {
-        errorMessage = "CORS Error: TensorFlow API needs to enable CORS. API works in terminal but blocked by browser.";
+        errorMessage = "CORS Error: PyTorch API needs to enable CORS. API works in terminal but blocked by browser.";
       }
-      
       return {
         success: false,
         model: "tensorflow",
