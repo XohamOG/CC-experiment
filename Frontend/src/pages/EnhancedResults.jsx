@@ -38,7 +38,7 @@ export default function EnhancedResults() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.2 }}
-      className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden"
+      className="min-h-screen py-12 px-6 relative overflow-x-hidden"
     >
       {/* Enhanced background with orb */}
       <EnhancedOrb hue={200} hoverIntensity={0.4} rotateOnHover={true} className="opacity-30" />
@@ -53,9 +53,23 @@ export default function EnhancedResults() {
         <div className="absolute top-16 right-16 w-40 h-16 md:w-56 md:h-20 rounded-full border-2 border-accent/25 bg-secondary/70 rotate-6 pop-in float-slow" style={{ animationDelay: '520ms' }} aria-hidden="true" />
         <div className="absolute bottom-28 left-1/3 w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-border bg-transparent pop-in float-slow" style={{ animationDelay: '800ms' }} aria-hidden="true" />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl z-10">
+      
+      {/* Header */}
+      <div className="max-w-6xl mx-auto mb-12 text-center z-10 relative">
+        <h1 className="funky-title text-4xl md:text-6xl text-blue-900 dark:text-blue-100 mb-4">Enhanced Model Results</h1>
+        <p className="text-muted-foreground text-lg">Deep dive into AI model performance and real-world applications</p>
+      </div>
+
+      {/* Scrollable cards container */}
+      <div className="max-w-4xl mx-auto space-y-8 z-10 relative">
         {/* PyTorch Transformer Card */}
-        <motion.div className="rounded-2xl shadow-lg border-2 border-blue-300 dark:border-blue-800 bg-gradient-to-br from-blue-50 to-blue-200 dark:from-blue-900 dark:to-blue-800 p-8 flex flex-col gap-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="rounded-2xl shadow-xl border-2 border-blue-300 dark:border-blue-800 bg-gradient-to-br from-blue-50 to-blue-200 dark:from-blue-900 dark:to-blue-800 p-8 flex flex-col gap-6"
+        >
           <div className="flex items-center gap-4 mb-2">
             <div className="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl font-bold">🔵</div>
             <div>
@@ -84,8 +98,15 @@ export default function EnhancedResults() {
             </ResponsiveContainer>
           </div>
         </motion.div>
+        
         {/* Gemini AI Card */}
-        <motion.div className="rounded-2xl shadow-lg border-2 border-purple-300 dark:border-purple-800 bg-gradient-to-br from-purple-50 to-purple-200 dark:from-purple-900 dark:to-purple-800 p-8 flex flex-col gap-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="rounded-2xl shadow-xl border-2 border-purple-300 dark:border-purple-800 bg-gradient-to-br from-purple-50 to-purple-200 dark:from-purple-900 dark:to-purple-800 p-8 flex flex-col gap-6"
+        >
           <div className="flex items-center gap-4 mb-2">
             <div className="w-14 h-14 rounded-full bg-purple-500 flex items-center justify-center text-white text-2xl font-bold">🟣</div>
             <div>
@@ -115,23 +136,46 @@ export default function EnhancedResults() {
           </div>
         </motion.div>
       </div>
+      
       {/* More Applications Section */}
-      <div className="w-full max-w-6xl mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 z-10">
-        <div className="rounded-2xl shadow-md border-2 border-cyan-300 dark:border-cyan-800 bg-gradient-to-br from-cyan-50 to-teal-100 dark:from-cyan-900 dark:to-teal-900 p-6 flex flex-col gap-2">
-          <div className="text-3xl mb-2">🛡️</div>
-          <div className="font-bold text-cyan-900 dark:text-cyan-100">Social Media Platforms</div>
-          <div className="text-cyan-700 dark:text-cyan-300 text-sm">Automated content filtering on Twitter, Facebook, Reddit to protect communities.</div>
-        </div>
-        <div className="rounded-2xl shadow-md border-2 border-green-300 dark:border-green-800 bg-gradient-to-br from-green-50 to-lime-100 dark:from-green-900 dark:to-lime-900 p-6 flex flex-col gap-2">
-          <div className="text-3xl mb-2">🎮</div>
-          <div className="font-bold text-green-900 dark:text-green-100">Gaming Communities</div>
-          <div className="text-green-700 dark:text-green-300 text-sm">Real-time chat moderation in multiplayer games, reducing toxicity by 60%.</div>
-        </div>
-        <div className="rounded-2xl shadow-md border-2 border-yellow-300 dark:border-yellow-800 bg-gradient-to-br from-yellow-50 to-orange-100 dark:from-yellow-900 dark:to-orange-900 p-6 flex flex-col gap-2">
-          <div className="text-3xl mb-2">📰</div>
-          <div className="font-bold text-yellow-900 dark:text-yellow-100">News Comments</div>
-          <div className="text-yellow-700 dark:text-yellow-300 text-sm">Pre-publication screening of user comments to maintain civil discourse.</div>
-        </div>
+      <div className="w-full max-w-4xl mx-auto mt-12 space-y-6 z-10 relative">
+        <h2 className="text-3xl font-bold text-center text-blue-900 dark:text-blue-100 mb-8">Real-World Applications</h2>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="rounded-2xl shadow-md border-2 border-cyan-300 dark:border-cyan-800 bg-gradient-to-br from-cyan-50 to-teal-100 dark:from-cyan-900 dark:to-teal-900 p-6 flex flex-col gap-3"
+        >
+          <div className="text-4xl mb-2">🛡️</div>
+          <div className="font-bold text-2xl text-cyan-900 dark:text-cyan-100">Social Media Platforms</div>
+          <div className="text-cyan-700 dark:text-cyan-300">Automated content filtering on Twitter, Facebook, Reddit to protect communities.</div>
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="rounded-2xl shadow-md border-2 border-green-300 dark:border-green-800 bg-gradient-to-br from-green-50 to-lime-100 dark:from-green-900 dark:to-lime-900 p-6 flex flex-col gap-3"
+        >
+          <div className="text-4xl mb-2">🎮</div>
+          <div className="font-bold text-2xl text-green-900 dark:text-green-100">Gaming Communities</div>
+          <div className="text-green-700 dark:text-green-300">Real-time chat moderation in multiplayer games, reducing toxicity by 60%.</div>
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="rounded-2xl shadow-md border-2 border-yellow-300 dark:border-yellow-800 bg-gradient-to-br from-yellow-50 to-orange-100 dark:from-yellow-900 dark:to-orange-900 p-6 flex flex-col gap-3"
+        >
+          <div className="text-4xl mb-2">📰</div>
+          <div className="font-bold text-2xl text-yellow-900 dark:text-yellow-100">News Comments</div>
+          <div className="text-yellow-700 dark:text-yellow-300">Pre-publication screening of user comments to maintain civil discourse.</div>
+        </motion.div>
       </div>
     </motion.main>
   );

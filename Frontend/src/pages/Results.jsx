@@ -46,7 +46,7 @@ export default function Results() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      className="min-h-screen px-6 py-12 relative bg-gradient-to-br from-blue-50 via-purple-50 to-orange-50 dark:from-blue-950 dark:via-purple-950 dark:to-orange-950"
+      className="min-h-screen px-6 py-12 relative"
     >
       {/* Enhanced background orb and waveform */}
       <EnhancedOrb hue={220} hoverIntensity={0.3} rotateOnHover={true} className="opacity-25 absolute left-0 top-0 w-96 h-96" />
