@@ -54,13 +54,13 @@ export default function EnhancedResults() {
         <div className="absolute bottom-28 left-1/3 w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-border bg-transparent pop-in float-slow" style={{ animationDelay: '800ms' }} aria-hidden="true" />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-6xl z-10">
-        {/* TensorFlow LSTM Card */}
+        {/* PyTorch Transformer Card */}
         <motion.div className="rounded-2xl shadow-lg border-2 border-blue-300 dark:border-blue-800 bg-gradient-to-br from-blue-50 to-blue-200 dark:from-blue-900 dark:to-blue-800 p-8 flex flex-col gap-6">
           <div className="flex items-center gap-4 mb-2">
             <div className="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl font-bold">🔵</div>
             <div>
-              <h2 className="text-2xl font-bold text-blue-900 dark:text-blue-100">TensorFlow LSTM</h2>
-              <p className="text-sm text-blue-700 dark:text-blue-300">Deep Learning Model</p>
+              <h2 className="text-2xl font-bold text-blue-900 dark:text-blue-100">PyTorch Transformer</h2>
+              <p className="text-sm text-blue-700 dark:text-blue-300">DistilBERT-based Model</p>
             </div>
           </div>
           <div className="text-blue-900 dark:text-blue-100 text-base font-semibold">Applications</div>
@@ -70,7 +70,7 @@ export default function EnhancedResults() {
             <li>Community safety monitoring</li>
           </ul>
           <div className="text-blue-900 dark:text-blue-100 text-base font-semibold">Performance</div>
-          <div className="mb-2 text-blue-800 dark:text-blue-200 text-sm">High accuracy on explicit hate speech, excellent recall for toxic content.</div>
+          <div className="mb-2 text-blue-800 dark:text-blue-200 text-sm">High accuracy on explicit hate speech, excellent recall for toxic content. Transformer architecture enables nuanced text understanding.</div>
           <div className="w-full h-56">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={tfAccuracyData}>
